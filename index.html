@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВиртуалАрт — VR/AR разработка</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyan: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            600: '#0891b2',
+                            700: '#0e7490'
+                        },
+                        teal: {
+                            50: '#f0fdfd',
+                            600: '#0d9488',
+                            700: '#0f766e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .slide-transition {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .active-slide {
+            opacity: 1;
+        }
+        .inactive-slide {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-cyan-50 to-teal-50 min-h-screen">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2C10.8954 2 10 2.89543 10 4V6H14V4C14 2.89543 13.1046 2 12 2Z"/>
+                            <path d="M4 6H20V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6Z"/>
+                            <path d="M10 10L14 14"/>
+                            <path d="M14 10L10 14"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800">ВиртуалАрт</h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Главная</a>
+                    <a href="#project" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Проект</a>
+                    <a href="#team" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">О нас</a>
+                    <a href="#contacts" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Контакты</a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <nav id="mobile-menu" class="md:hidden mt-4 pb-4 border-t border-gray-200 hidden">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="#home" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Главная</a>
+                    <a href="#project" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Проект</a>
+                    <a href="#team" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">О нас</a>
+                    <a href="#contacts" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Контакты</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Slider Section -->
+    <section id="home" class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white">
+                <div class="absolute inset-0 opacity-20">
+                    <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full opacity-30"></div>
+                    <div class="absolute bottom-10 right-10 w-32 h-32 bg-white rounded-full opacity-20"></div>
+                </div>
+                
+                <div class="relative z-10 p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row items-center gap-8" id="slider-container">
+                        <!-- Slide 1 -->
+                        <div class="slide active-slide md:w-1/2">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                                Услуги компании VR/AR разработка:
+                            </h2>
+                            <p class="text-lg mb-6 leading-relaxed">
+                                Создание цифровых пространств. Разрабатываем дизайн виртуальных пространств, виртуальные музеи, интерактивные выставки и образовательные среды с полным погружением. От концепции до реализации — полный цикл создания VR-решений для бизнеса и образования.
+                            </p>
+                            <div class="flex space-x-2">
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="0"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/2563eb/ffffff?text=VR+Experience" alt="VR Experience" class="rounded-xl shadow-2xl w-full h-auto object-cover">
+                        </div>
+                        
+                        <!-- Slide 2 -->
+                        <div class="slide inactive-slide md:w-1/2">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                                Инновационные решения
+                            </h2>
+                            <p class="text-lg mb-6 leading-relaxed">
+                                Мы создаем передовые технологии VR/AR и 3D-моделирования, которые преодолевают физические и социальные барьеры, обеспечивая равный доступ к знаниям и культурным ценностям для всех.
+                            </p>
+                            <div class="flex space-x-2">
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="0"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="1"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 -->
+                        <div class="slide inactive-slide md:w-1/2">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                                Профессиональное исполнение
+                            </h2>
+                            <p class="text-lg mb-6 leading-relaxed">
+                                Наши проекты гарантируют высокое качество и надежность, создавая решения, которые меняют общество к лучшему и способствуют развитию технологического предпринимательства.
+                            </p>
+                            <div class="flex space-x-2">
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="0"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
+                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="2"></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button id="prev-slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/30 transition-all">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/30 transition-all">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fund Support Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2">
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        Проект создан при поддержке Федерального государственного бюджетного учреждения «Фонд содействия развитию малых форм предприятий в научно-технической сфере» в рамках программы «Студенческий стартап» федерального проекта «Платформа университетского технологического предпринимательства»
+                    </p>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl">
+                        <img src="https://placehold.co/400x200/ffffff/000000?text=ФОНД+СОДЕЙСТВИЯ+ИННОВАЦИЯМ" alt="Фонд содействия инновациям" class="w-full h-auto rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Section (Исправлено согласно вашему макету) -->
+    <section id="project" class="py-16 bg-gradient-to-br from-cyan-50 to-teal-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Проект</h2>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Слева: Слайдер с картинками проекта -->
+                    <div class="md:w-1/2">
+                        <div class="relative overflow-hidden rounded-xl bg-white shadow-lg">
+                            <div id="project-slider" class="relative h-80">
+                                <!-- Слайд 1 -->
+                                <div class="project-slide active-slide absolute inset-0 flex items-center justify-center">
+                                    <img src="https://placehold.co/600x400/3b82f6/ffffff?text=Project+1" alt="Проект 1" class="w-full h-full object-cover">
+                                </div>
+                                <!-- Слайд 2 -->
+                                <div class="project-slide inactive-slide absolute inset-0 flex items-center justify-center">
+                                    <img src="https://placehold.co/600x400/10b981/ffffff?text=Project+2" alt="Проект 2" class="w-full h-full object-cover">
+                                </div>
+                                <!-- Слайд 3 -->
+                                <div class="project-slide inactive-slide absolute inset-0 flex items-center justify-center">
+                                    <img src="https://placehold.co/600x400/f59e0b/ffffff?text=Project+3" alt="Проект 3" class="w-full h-full object-cover">
+                                </div>
+                                
+                                <!-- Навигация -->
+                                <button id="project-prev" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full text-gray-800 hover:bg-white transition-all">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button id="project-next" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full text-gray-800 hover:bg-white transition-all">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                
+                                <!-- Индикаторы слайдов -->
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                                    <button class="project-dot w-3 h-3 rounded-full bg-white" data-slide="0"></button>
+                                    <button class="project-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
+                                    <button class="project-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Справа: Описание проекта -->
+                    <div class="md:w-1/2">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">ООО "ВиртуалАрт" — создаем цифровое будущее</h3>
+                            <p class="text-gray-700 leading-relaxed mb-6">
+                                Мы — инновационная компания, специализирующаяся на разработке VR/AR-решений (в том числе инклюзивных) для сферы культуры, образования и социальной адаптации. Мы объединяем опытных разработчиков, дизайнеров и специалистов по доступной среде для создания цифровых продуктов, которые делают культурное наследие и образование доступными для всех.
+                            </p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Наша миссия:</h4>
+                                    <p class="text-gray-700">Преодолевать физические и социальные барьеры через технологии, обеспечивать равный доступ к знаниям и культурным ценностям для людей с ограниченными возможностями здоровья.</p>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Наши ценности:</h4>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li><strong>Инклюзивность</strong> — проектируем решения, учитывающие потребности всех пользователей</li>
+                                        <li><strong>Инновации</strong> — используем передовые технологии VR/AR и 3D-моделирования</li>
+                                        <li><strong>Качество</strong> — гарантируем профессиональное исполнение и надежность</li>
+                                        <li><strong>Социальная ответственность</strong> — создаем проекты, которые меняют общество к лучшему</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Наша команда</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/3b82f6/ffffff?text=MK" alt="Кожевяткина Марина Алексеевна" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Кожевяткина Марина Алексеевна</h3>
+                            <p class="text-sm text-gray-600">руководитель проекта, генеральный директор ООО "ВиртуалАрт"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/10b981/ffffff?text=JR" alt="Ярослав Раскаткин" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Ярослав Раскаткин</h3>
+                            <p class="text-sm text-gray-600">ведущий специалист по 3D-моделированию</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/f59e0b/ffffff?text=SZ" alt="Степан Зотов" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Степан Зотов</h3>
+                            <p class="text-sm text-gray-600">разработчик VR-решений, специалист по Unity и Blender</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/8b5cf6/ffffff?text=VS" alt="Вадим Шергин" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Вадим Шергин</h3>
+                            <p class="text-sm text-gray-600">технический директор, специалист по оптимизации и производительности</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/ec4899/ffffff?text=AS" alt="Ангелина Сагиева" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Ангелина Сагиева</h3>
+                            <p class="text-sm text-gray-600">психолог, специалист по инклюзивному дизайну</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/200x200/059669/ffffff?text=EK" alt="Егор Кечин" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Егор Кечин</h3>
+                            <p class="text-sm text-gray-600">специалист по продвижению и грантам</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts" class="py-16 bg-gradient-to-br from-cyan-50 to-teal-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Контакты</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">ООО "ВиртуалАрт"</h3>
+                        <p class="text-gray-700">Юридический адрес: 607244, Нижегородская область, г.о. город Арзамас, ул.Мира, д.15, кв. 78</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Контакты:</h3>
+                        <p class="text-gray-700">email: m.kozhevyatkins@yandex.ru, телефон: +79877554599</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Основной вид деятельности:</h3>
+                        <p class="text-gray-700">62.01 - разработка компьютерного программного обеспечения</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">&copy; 2025 ООО "ВиртуалАрт". Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Slider functionality for main slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slide-dot');
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active-slide');
+                    slide.classList.remove('inactive-slide');
+                } else {
+                    slide.classList.add('inactive-slide');
+                    slide.classList.remove('active-slide');
+                }
+            });
+            
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-white/50');
+                } else {
+                    dot.classList.add('bg-white/50');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlider();
+            });
+        });
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }, 5000);
+
+        // Project slider functionality
+        let projectCurrentSlide = 0;
+        const projectSlides = document.querySelectorAll('.project-slide');
+        const projectDots = document.querySelectorAll('.project-dot');
+        const projectPrevBtn = document.getElementById('project-prev');
+        const projectNextBtn = document.getElementById('project-next');
+
+        function updateProjectSlider() {
+            projectSlides.forEach((slide, index) => {
+                if (index === projectCurrentSlide) {
+                    slide.classList.add('active-slide');
+                    slide.classList.remove('inactive-slide');
+                } else {
+                    slide.classList.add('inactive-slide');
+                    slide.classList.remove('active-slide');
+                }
+            });
+            
+            projectDots.forEach((dot, index) => {
+                if (index === projectCurrentSlide) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-white/50');
+                } else {
+                    dot.classList.add('bg-white/50');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        }
+
+        projectPrevBtn.addEventListener('click', () => {
+            projectCurrentSlide = (projectCurrentSlide - 1 + projectSlides.length) % projectSlides.length;
+            updateProjectSlider();
+        });
+
+        projectNextBtn.addEventListener('click', () => {
+            projectCurrentSlide = (projectCurrentSlide + 1) % projectSlides.length;
+            updateProjectSlider();
+        });
+
+        projectDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                projectCurrentSlide = index;
+                updateProjectSlider();
+            });
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
+
