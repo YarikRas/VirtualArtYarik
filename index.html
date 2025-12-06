@@ -44,6 +44,76 @@
             top: 0;
             left: 0;
         }
+        /* Контейнер */
+        .project-slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+.project-slider-wrapper {
+    position: relative;
+    z-index: 30; /* создаём новый стек над слайдами */
+}
+
+        /* Каждый слайд */
+        .project-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: translateX(30px);
+            transition:
+                opacity 0.6s ease,
+                transform 0.6s ease;
+        }
+
+        /* Активный */
+        .project-slide.active-slide {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        /* Неактивные */
+        .project-slide.inactive-slide {
+            opacity: 0;
+            transform: translateX(-30px);
+            z-index: 1;
+        }
+
+        /* Стрелки поверх всего */
+        .project-arrow {
+    background: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 50; /* Важно */
+    position: absolute; /* Чтобы z-index точно работал */
+}
+
+
+        /* Точки лучше видно */
+        .project-dot {
+            width: 10px;
+            height: 10px;
+            background: #ffffff70;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .project-dot.active {
+            background: #1e8a4b; /* <<< теперь видно */
+        }
+
+
+        .project-arrow:hover {
+            background: #eaeaea;
+        }
+
     </style>
 </head>
 <body class="bg-gradient-to-br from-cyan-50 to-teal-50 min-h-screen">
@@ -53,12 +123,6 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
                     <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2C10.8954 2 10 2.89543 10 4V6H14V4C14 2.89543 13.1046 2 12 2Z"/>
-                            <path d="M4 6H20V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6Z"/>
-                            <path d="M10 10L14 14"/>
-                            <path d="M14 10L10 14"/>
-                        </svg>-->
                          <img src="images/лого.jpg" alt="ВиртАрт" class="w-full h-auto rounded-lg">
                     </div>
                     <h1 class="text-xl font-bold text-gray-800">ВиртуалАрт</h1>
@@ -67,6 +131,7 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8">
                     <a href="#home" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Главная</a>
+                    <a href="#sponsor" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Спонсоры</a>
                     <a href="#project" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Проект</a>
                     <a href="#team" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">О нас</a>
                     <a href="#contacts" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Контакты</a>
@@ -82,6 +147,7 @@
             <nav id="mobile-menu" class="md:hidden mt-4 pb-4 border-t border-gray-200 hidden">
                 <div class="flex flex-col space-y-4 pt-4">
                     <a href="#home" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Главная</a>
+                    <a href="#sponsor" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Спонсоры</a>
                     <a href="#project" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Проект</a>
                     <a href="#team" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">О нас</a>
                     <a href="#contacts" class="text-gray-700 hover:text-cyan-600 font-medium transition-colors">Контакты</a>
@@ -90,77 +156,66 @@
         </div>
     </header>
 
-    <!-- Hero Slider Section -->
-    <section id="home" class="pt-24 pb-16">
-        <div class="container mx-auto px-4">
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 text-white">
-                <div class="absolute inset-0 opacity-20">
-                    <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full opacity-30"></div>
-                    <div class="absolute bottom-10 right-10 w-32 h-32 bg-white rounded-full opacity-20"></div>
-                </div>
-                
-                <div class="relative z-10 p-8 md:p-12">
-                    <div class="flex flex-col md:flex-row items-center gap-8" id="slider-container">
-                        <!-- Slide 1 -->
-                        <div class="slide active-slide md:w-1/2">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                                Услуги компании – <br> Создание цифровых пространств:
-                            </h2>
-                            <p class="text-lg mb-6 leading-relaxed">
-                                Разработка дизайна виртуальных пространств, виртуальных музеев, интерактивных выставок и образовательных сред с полным погружением. От концепции до реализации — полный цикл создания VR-решений для бизнеса и образования.
-                            </p>
-                            <div class="flex space-x-2">
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="0"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2">
-                            <img src="images/photo_2025-12-05_12-35-59.jpg" alt="VR Experience" class="rounded-xl shadow-2xl w-full h-auto object-cover">
-                        </div>
-                        
-                        <!-- Slide 2 -->
-                        <div class="slide inactive-slide md:w-1/2">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                                Инновационные решения
-                            </h2>
-                            <p class="text-lg mb-6 leading-relaxed">
-                                Мы создаем передовые технологии VR/AR и 3D-моделирования, которые преодолевают физические и социальные барьеры, обеспечивая равный доступ к знаниям и культурным ценностям для всех.
-                            </p>
-                            <div class="flex space-x-2">
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="0"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="1"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
-                            </div>
-                        </div>
-                        
-                        <!-- Slide 3 -->
-                        <div class="slide inactive-slide md:w-1/2">
-                            <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                                Профессиональное исполнение
-                            </h2>
-                            <p class="text-lg mb-6 leading-relaxed">
-                                Наши проекты гарантируют высокое качество и надежность, создавая решения, которые меняют общество к лучшему и способствуют развитию технологического предпринимательства.
-                            </p>
-                            <div class="flex space-x-2">
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="0"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
-                                <button class="slide-dot w-3 h-3 rounded-full bg-white" data-slide="2"></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Navigation Arrows -->
-                    <button id="prev-slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/30 transition-all">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button id="next-slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/30 transition-all">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+    <!-- Hero Slider Section (вот это ты должен поменять)-->
+    <section id="home" class="relative w-full h-screen overflow-hidden">
+
+    <!-- Слайды -->
+    <div id="hero-slides" class="absolute inset-0 w-full h-full">
+
+        <!-- Slide 1 -->
+        <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-700">
+            <img src="images/photo_2025-12-05_12-35-59.jpg" class="w-full h-full object-cover brightness-75">
+            <div class="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 text-white max-w-3xl">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">Создание цифровых пространств</h2>
+                <p class="text-lg md:text-xl mb-6">
+                    Разработка виртуальных музеев, образовательных сред и интерактивных VR-решений.
+                </p>
+                <a href="#project" class="bg-white text-cyan-700 font-semibold px-6 py-3 rounded-xl shadow-lg hover:bg-cyan-50 transition">Подробнее</a>
             </div>
         </div>
-    </section>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-700">
+            <img src="images/photo_2025-12-05_12-31-37.jpg" class="w-full h-full object-cover brightness-75">
+            <div class="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 text-white max-w-3xl">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">Инновационные VR/AR решения</h2>
+                <p class="text-lg md:text-xl mb-6">
+                    Используем передовые технологии для доступности, образования и культуры.
+                </p>
+                <a href="#project" class="bg-white text-cyan-700 font-semibold px-6 py-3 rounded-xl shadow-lg hover:bg-cyan-50 transition">Подробнее</a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-700">
+            <img src="images/photo_2025-12-05_12-33-28.jpg" class="w-full h-full object-cover brightness-75">
+            <div class="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 text-white max-w-3xl">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">Профессиональное исполнение</h2>
+                <p class="text-lg md:text-xl mb-6">
+                    Высокое качество 3D-моделирования, VR-разработки и оптимизации.
+                </p>
+                <a href="#project" class="bg-white text-cyan-700 font-semibold px-6 py-3 rounded-xl shadow-lg hover:bg-cyan-50 transition">Подробнее</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигационные стрелки -->
+    <button id="hero-prev"
+        class="absolute top-1/2 left-6 -translate-y-1/2 bg-black/30 text-white p-4 rounded-full hover:bg-black/50 transition">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button id="hero-next"
+        class="absolute top-1/2 right-6 -translate-y-1/2 bg-black/30 text-white p-4 rounded-full hover:bg-black/50 transition">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Индикаторы -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
+        <button class="hero-dot w-4 h-4 rounded-full bg-white"></button>
+        <button class="hero-dot w-4 h-4 rounded-full bg-white/50"></button>
+        <button class="hero-dot w-4 h-4 rounded-full bg-white/50"></button>
+    </div>
+</section>
 
     <!-- Fund Support Section -->
     <section class="py-16 bg-white">
@@ -190,8 +245,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/апи.jpg" alt="АПИ НГТУ" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">АПИ НГТУ</h3>
-                            <p class="text-sm text-gray-600">Институт</p>
+                            <h3 class="font-semibold text-gray-800">АПИ НГТУ им. Р.Е. Алексеева</h3>
+                            <!--<p class="text-sm text-gray-600">Институт</p>-->
                         </div>
                     </div>
                 </div>
@@ -200,8 +255,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/музей 1.png" alt="Музей 1" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Музей 1</h3>
-                            <p class="text-sm text-gray-600">музей 1</p>
+                            <h3 class="font-semibold text-gray-800"> Музей "Природа" им. С.И. Трофимова</h3>
+                           
                         </div>
                     </div>
                 </div>
@@ -210,8 +265,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/музей 2.png" alt="Музей 2" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Музей 2</h3>
-                            <p class="text-sm text-gray-600">Музей 2</p>
+                            <h3 class="font-semibold text-gray-800">Арзамасский историко-художественный музей</h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -220,8 +275,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/отк дв.jpg" alt="двери" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Открытые двери</h3>
-                            <p class="text-sm text-gray-600">открытые двери</p>
+                            <h3 class="font-semibold text-gray-800">Фонд содействия реализации равных возможностей «Открытые Двери»</h3>
+                          
                         </div>
                     </div>
                 </div>
@@ -230,8 +285,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/перспектива.webp" alt="перспектива" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Перспектива</h3>
-                            <p class="text-sm text-gray-600">Перспектива</p>
+                            <h3 class="font-semibold text-gray-800">Нижегородская региональная общественная организацияродителей детей-инвалидовпозрению«Перспектива»</h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -240,8 +295,8 @@
                     <div class="flex items-center mb-4">
                         <img src="images/снами.webp" alt="снами" class="w-16 h-16 rounded-full mr-4">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Снами</h3>
-                            <p class="text-sm text-gray-600">Снами</p>
+                            <h3 class="font-semibold text-gray-800">АНО «ЦЕНТР ВСЕСТОРОННЕЙ ПОДДЕРЖКИ ДЕТЕЙ И МОЛОДЕЖИ С ОВЗ «СНАМИ»</h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -249,76 +304,88 @@
         </div>
     </section>
     <!-- Project Section -->
-    <section id="project" class="py-16 bg-gradient-to-br from-cyan-50 to-teal-50">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Проект</h2>
-                <div class="flex flex-col md:flex-row gap-8">
-                    <!-- Слева: Слайдер с картинками проекта -->
-                    <div class="md:w-1/2">
-                        <div class="relative overflow-hidden rounded-xl bg-white shadow-lg">
-                            <div id="project-slider" class="relative h-80">
-                                <!-- Слайд 1 -->
-                                <div class="project-slide active-slide absolute inset-0 flex items-center justify-center">
-                                    <img src="images/photo_2025-12-05_12-31-37.jpg" alt="Проект 1" class="w-full h-full object-cover">
-                                </div>
-                                <!-- Слайд 2 -->
-                                <div class="project-slide inactive-slide absolute inset-0 flex items-center justify-center">
-                                    <img src="images/photo_2025-12-05_12-33-28.jpg" alt="Проект 2" class="w-full h-full object-cover">
-                                </div>
-                                <!-- Слайд 3 -->
-                                <div class="project-slide inactive-slide absolute inset-0 flex items-center justify-center">
-                                    <img src="images/photo_2025-12-05_12-33-38.jpg" alt="Проект 3" class="w-full h-full object-cover">
-                                </div>
-                                
-                                <!-- Навигация -->
-                                <button id="project-prev" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full text-gray-800 hover:bg-white transition-all">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button id="project-next" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full text-gray-800 hover:bg-white transition-all">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                                
-                                <!-- Индикаторы слайдов -->
-                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                                    <button class="project-dot w-3 h-3 rounded-full bg-white" data-slide="0"></button>
-                                    <button class="project-dot w-3 h-3 rounded-full bg-white/50" data-slide="1"></button>
-                                    <button class="project-dot w-3 h-3 rounded-full bg-white/50" data-slide="2"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <section id="project" class="py-20 bg-[#e9f9f7]">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <h2 class="text-4xl font-bold text-center text-gray-800 mb-14">Проект</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
+            <!-- СЛАЙДЕР -->
+            <div class="relative rounded-2xl bg-white shadow-xl p-5 project-slider-wrapper">
+                <!-- Стрелки -->
+                <button id="project-prev"
+                    class="project-arrow absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center
+                    bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-100">
+                    ‹
+                </button>
+
+                <button id="project-next"
+                    class="project-arrow absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center
+                    bg-white text-gray-700 rounded-full shadow-lg hover:bg-gray-100">
+                    ›
+                </button>
+
+
+                <!-- Слайды -->
+                <div class="relative overflow-hidden rounded-xl h-[360px]">
                     
-                    <!-- Справа: Описание проекта -->
-                    <div class="md:w-1/2">
-                        <div class="bg-white rounded-xl shadow-lg p-6">
-                            <h3 class="text-base font-semibold text-gray-800 mb-4">ООО "ВиртуалАрт" — создаем цифровое будущее</h3>
-                            <p class="text-sm text-gray-700 leading-relaxed mb-6">
-                                Мы — инновационная компания, специализирующаяся на разработке VR/AR-решений (в том числе инклюзивных) для сферы культуры, образования и социальной адаптации. Мы объединяем опытных разработчиков, дизайнеров и специалистов по доступной среде для создания цифровых продуктов, которые делают культурное наследие и образование доступными для всех.
-                            </p>
-                            
-                            <div class="space-y-4 mb-6">
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 mb-2">Наша миссия:</h4>
-                                    <p class=" text-sm text-gray-700">Преодолевать физические и социальные барьеры через технологии, обеспечивать равный доступ к знаниям и культурным ценностям для людей с ограниченными возможностями здоровья.</p>
-                                </div>
-                                
-                                <div>
-                                    <h4 class=" font-semibold text-gray-800 mb-2">Наши ценности:</h4>
-                                    <ul class=" text-sm list-disc list-inside text-gray-700 space-y-1">
-                                        <li><strong>Инклюзивность</strong> — проектируем решения, учитывающие потребности всех пользователей</li>
-                                        <li><strong>Инновации</strong> — используем передовые технологии VR/AR и 3D-моделирования</li>
-                                        <li><strong>Качество</strong> — гарантируем профессиональное исполнение и надежность</li>
-                                        <li><strong>Социальная ответственность</strong> — создаем проекты, которые меняют общество к лучшему</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="project-slide active-slide">
+                        <img src="images/photo_2025-12-05_12-31-37.jpg" class="w-full h-full object-cover rounded-xl">
                     </div>
+
+                    <div class="project-slide inactive-slide">
+                        <img src="images/photo_2025-12-05_12-33-28.jpg" class="w-full h-full object-cover rounded-xl">
+                    </div>
+
+                    <div class="project-slide inactive-slide">
+                        <img src="images/photo_2025-12-05_12-33-38.jpg" class="w-full h-full object-cover rounded-xl">
+                    </div>
+
                 </div>
+
+                
+
+                <!-- Точки -->
+                <div class="flex justify-center mt-4 space-x-3">
+                    <span class="project-dot w-3 h-3 rounded-full bg-gray-400"></span>
+                    <span class="project-dot w-3 h-3 rounded-full bg-gray-300"></span>
+                    <span class="project-dot w-3 h-3 rounded-full bg-gray-300"></span>
+                </div>
+
+            </div>
+
+            <!-- ТЕКСТ -->
+            <div class="bg-white rounded-2xl shadow-xl p-10 leading-relaxed">
+
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">ООО “ВиртуалАрт” — создаем цифровое будущее</h3>
+
+                <p class="text-gray-700 mb-6">
+                    Мы — инновационная компания, специализирующаяся на разработке VR/AR-решений, включая
+                    инклюзивные технологии для культуры, образования и социальной адаптации.
+                </p>
+
+                <h4 class="text-xl font-semibold mb-2">Наша миссия:</h4>
+
+                <p class="text-gray-700 mb-6">
+                    Преодолеть физические и социальные барьеры через технологии, предоставляя доступ к знаниям
+                    и культурному наследию для всех.
+                </p>
+
+                <h4 class="text-xl font-semibold mb-2">Наши ценности:</h4>
+
+                <ul class="text-gray-700 space-y-2">
+                    <li><b>Инклюзивность</b> — решения для всех пользователей</li>
+                    <li><b>Инновации</b> — VR/AR + современное 3D-моделирование</li>
+                    <li><b>Качество</b> — надёжность и профессионализм</li>
+                    <li><b>Социальная ответственность</b> — делаем общество лучше</li>
+                </ul>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Team Section -->
     <section id="team" class="py-16 bg-white">
@@ -423,103 +490,96 @@
     </footer>
 
     <script>
-        // Slider functionality for main slider
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slide-dot');
-        const prevBtn = document.getElementById('prev-slide');
-        const nextBtn = document.getElementById('next-slide');
+        // --- HERO SLIDER (новый слайдер) ---
+        let heroIndex = 0;
+        const heroSlides = document.querySelectorAll(".hero-slide");
+        const heroDots = document.querySelectorAll(".hero-dot");
 
-        function updateSlider() {
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) {
-                    slide.classList.add('active-slide');
-                    slide.classList.remove('inactive-slide');
-                } else {
-                    slide.classList.add('inactive-slide');
-                    slide.classList.remove('active-slide');
-                }
+        function updateHeroSlider() {
+            heroSlides.forEach((slide, i) => {
+                slide.style.opacity = (i === heroIndex) ? "1" : "0";
             });
-            
-            dots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.classList.add('bg-white');
-                    dot.classList.remove('bg-white/50');
-                } else {
-                    dot.classList.add('bg-white/50');
-                    dot.classList.remove('bg-white');
-                }
+
+            heroDots.forEach((dot, i) => {
+                dot.classList.toggle("bg-white", i === heroIndex);
+                dot.classList.toggle("bg-white/50", i !== heroIndex);
             });
         }
 
-        prevBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            updateSlider();
+        document.getElementById("hero-prev").onclick = () => {
+            heroIndex = (heroIndex - 1 + heroSlides.length) % heroSlides.length;
+            updateHeroSlider();
+        };
+
+        document.getElementById("hero-next").onclick = () => {
+            heroIndex = (heroIndex + 1) % heroSlides.length;
+            updateHeroSlider();
+        };
+
+        heroDots.forEach((dot, i) => {
+            dot.onclick = () => {
+                heroIndex = i;
+                updateHeroSlider();
+            };
         });
 
-        nextBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateSlider();
-        });
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                updateSlider();
-            });
-        });
-
-        // Auto slide every 5 seconds
+        // авто-прокрутка
         setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateSlider();
+            heroIndex = (heroIndex + 1) % heroSlides.length;
+            updateHeroSlider();
         }, 5000);
 
-        // Project slider functionality
-        let projectCurrentSlide = 0;
+
+        // ======================
+        // Project Slider (new)
+        // ======================
+        let projectIndex = 0;
         const projectSlides = document.querySelectorAll('.project-slide');
         const projectDots = document.querySelectorAll('.project-dot');
         const projectPrevBtn = document.getElementById('project-prev');
         const projectNextBtn = document.getElementById('project-next');
 
         function updateProjectSlider() {
-            projectSlides.forEach((slide, index) => {
-                if (index === projectCurrentSlide) {
+            projectSlides.forEach((slide, i) => {
+                slide.classList.remove('active-slide', 'inactive-slide');
+
+                if (i === projectIndex) {
                     slide.classList.add('active-slide');
-                    slide.classList.remove('inactive-slide');
                 } else {
                     slide.classList.add('inactive-slide');
-                    slide.classList.remove('active-slide');
                 }
             });
-            
-            projectDots.forEach((dot, index) => {
-                if (index === projectCurrentSlide) {
-                    dot.classList.add('bg-white');
-                    dot.classList.remove('bg-white/50');
-                } else {
-                    dot.classList.add('bg-white/50');
-                    dot.classList.remove('bg-white');
-                }
+
+            projectDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === projectIndex);
             });
         }
 
         projectPrevBtn.addEventListener('click', () => {
-            projectCurrentSlide = (projectCurrentSlide - 1 + projectSlides.length) % projectSlides.length;
+            projectIndex = (projectIndex - 1 + projectSlides.length) % projectSlides.length;
             updateProjectSlider();
         });
 
         projectNextBtn.addEventListener('click', () => {
-            projectCurrentSlide = (projectCurrentSlide + 1) % projectSlides.length;
+            projectIndex = (projectIndex + 1) % projectSlides.length;
             updateProjectSlider();
         });
 
-        projectDots.forEach((dot, index) => {
+        projectDots.forEach((dot, i) => {
             dot.addEventListener('click', () => {
-                projectCurrentSlide = index;
+                projectIndex = i;
                 updateProjectSlider();
             });
         });
+
+        // Автоперелистывание
+        setInterval(() => {
+            projectIndex = (projectIndex + 1) % projectSlides.length;
+            updateProjectSlider();
+        }, 6000);
+
+        updateProjectSlider();
+
 
         // Mobile menu toggle
         const menuToggle = document.getElementById('menu-toggle');
